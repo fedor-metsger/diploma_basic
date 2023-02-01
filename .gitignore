@@ -1,3 +1,7 @@
 .idea/
 token.txt
+ya_token.txt
+vk_token.txt
+*.jpg
+main_old.py
 /requirements2.txt
