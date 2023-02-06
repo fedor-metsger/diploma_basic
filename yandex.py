@@ -35,16 +35,16 @@ class YaUploader:
         response = requests.get(UPLOAD_URL, headers=headers, params=params)
         if response.status_code != 200:
             print("Ошибка, status code: " + str(response))
-#        else:
-#            print("URL для загрузки файла получен успешно")
         return (response.json())
 
     def upload(self, file_name, dir_name=""):
         """
         Метод загружает файл по имени file_name на яндекс диск
         """
-        if dir_name != "": full_name = dir_name + '/' + file_name
-        else: full_name = file_name
+        if dir_name != "":
+            full_name = dir_name + '/' + file_name
+        else:
+            full_name = file_name
         href = self._get_upload_link(file_name=full_name).get("href", "")
         if not href:
             print("Oшибка: href == None")
@@ -61,7 +61,6 @@ class YaUploader:
         """
         Метод создаёт папку (каталог) на яндекс диске
         """
-
         params = {"path": dir_name}
         response = requests.put(BASE_URL, headers=self.get_headers(), params=params)
         if response.status_code == 201:

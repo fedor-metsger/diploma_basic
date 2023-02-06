@@ -25,11 +25,6 @@ def main():
 
 # Получить список аватарок от пользователя VK
     vk = VK(vk_token, user_id)
-    # pprint(vk.users_info())
-    # pprint(vk.search_groups("python"))
-    # pprint(vk.get_followers())
-    # pprint(vk.get_groups())
-    # pprint(vk.get_news('коронавирус'))
     images = vk.get_photos(user_id)
     if not images or not len(images.keys()):
         print("Не могу загрузить список аватарок из VK")
@@ -37,7 +32,7 @@ def main():
     else:
         print(f"Получен список из {len(images.keys())} первых аватарок.")
 
-# Скачать аватарки с сайта VK
+# Скачать аватарки с с54айта VK
     for img_name in images.keys():
         print(f'Скачиваю {img_name}, размер {images[img_name]["size"]}, URL: {images[img_name]["url"]}')
         print(vk.download_photo(img_name, images[img_name]["url"]))

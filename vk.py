@@ -120,11 +120,10 @@ class VK:
         :return:
         """
         filename_extension = url.split('?')[0].split('.')[-1]
-#        print(likes, date, url, filename_extension)
         if str(likes) + '.' + filename_extension in img_dict.keys():
-            img_dict[str(likes) + '-' + str(date) + '.' + filename_extension] = {"url": url, "size": size}
+            img_dict[f"{str(likes)}-{str(date)}.{filename_extension}"] = {"url": url, "size": size}
         else:
-            img_dict[str(likes) + '.' + filename_extension] = {"url": url, "size": size}
+            img_dict[f"{str(likes)}.{filename_extension}"] = {"url": url, "size": size}
 
     def get_photos(self, owner, number=5):
         """
@@ -144,22 +143,16 @@ class VK:
             params={**self.params, **photo_params})
         if result.status_code != 200: return None
         if "response" not in result.json().keys(): return None
-#        pprint(type(result.json()))
-#        pprint(result.json()["response"])
         img_dict = {}
         for ph in result.json()["response"]["items"]:
-#            print(f'Likes:{ph["likes"]["count"]} Date: {ctime(ph["date"])}')
             size, url, img_typ = None, None, None
             for s in ph["sizes"]:
-#                print(s["type"], s["height"], s["width"])
                 if not url or int(s["height"]) + int(s["width"]) > size or \
                         self._is_img_type_better(img_typ, s["type"]):
                     size = int(s["height"]) + int(s["width"])
                     url = s["url"]
                     img_type = s["type"]
-#            print(img_type, size, url)
             self._add_img_to_dict(img_dict, ph["likes"]["count"], ph["date"], url, img_type)
-#        print(img_dict)
         return img_dict
 
     def download_photo(self, file_name, url):
